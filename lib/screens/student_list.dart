@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:student_app/screens/student_details.dart';
 
 class StudentList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+    //widget state
     return StudentListState();
   }
 }
@@ -22,7 +23,7 @@ class StudentListState extends State<StudentList> {
         tooltip: "Add",
         child: Icon(Icons.add),
         onPressed: () {
-          debugPrint("Add button pressed");
+          performNavigation("Add Student Details");
         },
       ),
     );
@@ -47,10 +48,16 @@ class StudentListState extends State<StudentList> {
               ),
               trailing: Icon(Icons.delete_forever, color: Colors.blueGrey),
               onTap: () {
-                debugPrint("Test Purpose");
+                performNavigation("Edit Student Details");
               },
             ),
           );
         });
+  }
+
+  void performNavigation(String title) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return StudentDetails(title);
+    }));
   }
 }
