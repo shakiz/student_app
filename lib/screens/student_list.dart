@@ -57,7 +57,7 @@ class StudentListState extends State<StudentList> {
 
   void performNavigation(String title) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return StudentDetails(title);
+      return StudentDetails();
     }));
   }
 }
