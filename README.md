@@ -1,6 +1,6 @@
 # student_app
 
-A new Flutter application.
+This project supplies the CRUD operation in flutter using SqFlite plugin.This is an complete CRUD example so you can use it for your own leraning purpose.
 
 ## Getting Started
 
