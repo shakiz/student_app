@@ -52,7 +52,7 @@ class Student {
   //endregion
 
   //region get student object from map object
-  Student getStudentFromMap(Map<String, dynamic> map) {
+  Student.fromMapObject(Map<String, dynamic> map) {
     this._id = map["id"];
     this._name = map["name"];
     this._dob = map["dob"];

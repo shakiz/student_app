@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:student_app/helper/db_helper.dart';
+import 'package:student_app/models/student.dart';
 
 class StudentDetails extends StatefulWidget {
   StudentDetails();
@@ -18,6 +20,10 @@ class StudentDetailsState extends State<StudentDetails> {
   TextEditingController dobEditor = TextEditingController();
   TextEditingController fathersNameEditor = TextEditingController();
   TextEditingController mothersNameEditor = TextEditingController();
+
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+
+  Student student;
 
   StudentDetailsState();
 
@@ -68,6 +74,7 @@ class StudentDetailsState extends State<StudentDetails> {
                   controller: nameEditor,
                   onChanged: (value) {
                     debugPrint("Name $value");
+                    nameEditor.text;
                   },
                   decoration: InputDecoration(
                       labelText: "Name",
@@ -84,6 +91,7 @@ class StudentDetailsState extends State<StudentDetails> {
                   controller: dobEditor,
                   onChanged: (value) {
                     debugPrint("DOB $value");
+                    dobEditor.text;
                   },
                   decoration: InputDecoration(
                       labelText: "Date of birth",
@@ -100,6 +108,7 @@ class StudentDetailsState extends State<StudentDetails> {
                   controller: fathersNameEditor,
                   onChanged: (value) {
                     debugPrint("Mothers Name $value");
+                    mothersNameEditor.text;
                   },
                   decoration: InputDecoration(
                       labelText: "Mothers Name",
@@ -116,6 +125,7 @@ class StudentDetailsState extends State<StudentDetails> {
                   controller: mothersNameEditor,
                   onChanged: (value) {
                     debugPrint("Fathers Name $value");
+                    fathersNameEditor.text;
                   },
                   decoration: InputDecoration(
                       labelText: "Fathers Name",
@@ -132,6 +142,11 @@ class StudentDetailsState extends State<StudentDetails> {
           child: Icon(Icons.save),
           onPressed: () {
             debugPrint("Save clicked");
+            student.name = nameEditor.text;
+            student.dob = nameEditor.text;
+            student.fathersName = fathersNameEditor.text;
+            student.mothersName = mothersNameEditor.text;
+            _saveOrEdit();
           },
         ),
       ),
@@ -139,6 +154,19 @@ class StudentDetailsState extends State<StudentDetails> {
   }
 
   void onBackPressed() {
-    Navigator.pop(context);
+    Navigator.pop(context, true);
   }
+
+  //region perform save or edit operation
+  void _saveOrEdit() async {
+    int result = await _databaseHelper.add(student);
+    if (result != 0) {
+      final snackBar = SnackBar(content: Text("Student Added"));
+      Scaffold.of(context).showSnackBar(snackBar);
+    } else {
+      final snackBar = SnackBar(content: Text("Student Not Added"));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
+  //endregion
 }
