@@ -96,7 +96,7 @@ class DatabaseHelper {
 
   //region get list object from map
   Future<List<Student>> getListObjectFromMap() async {
-    var allStudentsMap = await this.getAllStudents();
+    var allStudentsMap = await getAllStudents();
 
     List<Student> students = new List<Student>();
 

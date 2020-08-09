@@ -20,6 +20,7 @@ class StudentListState extends State<StudentList> {
   Widget build(BuildContext context) {
     if (students == null) {
       students = List<Student>();
+      _loadRecycler();
     }
 
     return Scaffold(
@@ -31,12 +32,14 @@ class StudentListState extends State<StudentList> {
         tooltip: "Add",
         child: Icon(Icons.add),
         onPressed: () {
-          performNavigation();
+          debugPrint('FAB clicked');
+          performNavigation(Student("", "", "", ""), 'Add New Student');
         },
       ),
     );
   }
 
+  //region get student list and card
   ListView getStudentList() {
     TextStyle textStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
@@ -65,18 +68,24 @@ class StudentListState extends State<StudentList> {
                 },
               ),
               onTap: () {
-                performNavigation();
+                performNavigation(students[position], "Edit Student Details");
               },
             ),
           );
         });
   }
+  //endregion
 
-  void performNavigation() async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return StudentDetails();
-    }));
+  //region perform navigation
+  void performNavigation(Student student, String title) async {
+    bool result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => StudentDetails(student, title)));
+
+    if (result) {
+      _loadRecycler();
+    }
   }
+  //endregion
 
   //region perform delete operation
   void _deleteRecord(BuildContext context, Student student) async {
@@ -94,8 +103,8 @@ class StudentListState extends State<StudentList> {
     }
     _loadRecycler();
   }
-
   //endregion
+
   //region load recycler
   void _loadRecycler() {
     final Future<Database> dbLater = _databaseHelper.initializeDatabase();

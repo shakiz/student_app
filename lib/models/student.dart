@@ -5,8 +5,7 @@ class Student {
   String _fathersName;
   String _mothersName;
 
-  Student(
-      this._id, this._name, this._dob, this._fathersName, this._mothersName);
+  Student(this._name, this._dob, this._fathersName, this._mothersName);
 
   String get mothersName => _mothersName;
 
@@ -46,8 +45,9 @@ class Student {
     }
     object["name"] = this._name;
     object["dob"] = this._dob;
-    object["fName"] = this._fathersName;
     object["mName"] = this._mothersName;
+    object["fName"] = this._fathersName;
+    return object;
   }
   //endregion
 
@@ -56,8 +56,8 @@ class Student {
     this._id = map["id"];
     this._name = map["name"];
     this._dob = map["dob"];
-    this._fathersName = map["fName"];
     this._mothersName = map["mName"];
+    this._fathersName = map["fName"];
   }
   //endregion
 }
