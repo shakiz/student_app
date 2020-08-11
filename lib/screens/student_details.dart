@@ -46,6 +46,7 @@ class StudentDetailsState extends State<StudentDetails> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
+          backgroundColor: Colors.orange,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -145,6 +146,7 @@ class StudentDetailsState extends State<StudentDetails> {
         floatingActionButton: FloatingActionButton(
           tooltip: "Save",
           child: Icon(Icons.save),
+          backgroundColor: Colors.orange,
           onPressed: () {
             _saveOrEdit();
             debugPrint("Save clicked");

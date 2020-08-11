@@ -26,11 +26,16 @@ class StudentListState extends State<StudentList> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Student List"),
+        backgroundColor: Colors.orange,
       ),
       body: getStudentList(),
       floatingActionButton: FloatingActionButton(
         tooltip: "Add",
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.orange,
         onPressed: () {
           debugPrint('FAB clicked');
           performNavigation(Student("", "", "", ""), 'Add New Student');
@@ -46,12 +51,16 @@ class StudentListState extends State<StudentList> {
         itemCount: count,
         itemBuilder: (BuildContext context, int position) {
           return Card(
+            margin: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 8),
             color: Colors.white,
-            elevation: 2.0,
+            elevation: 4.0,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.lightGreenAccent,
-                child: Icon(Icons.keyboard_arrow_right),
+                backgroundColor: Colors.orange,
+                child: Icon(
+                  Icons.person_outline,
+                  color: Colors.white,
+                ),
               ),
               title: Text(
                 students[position].name,
@@ -62,7 +71,7 @@ class StudentListState extends State<StudentList> {
                 style: textStyle,
               ),
               trailing: GestureDetector(
-                child: Icon(Icons.delete_forever, color: Colors.blueGrey),
+                child: Icon(Icons.delete_forever, color: Colors.orange),
                 onTap: () {
                   _deleteRecord(context, students[position]);
                 },
