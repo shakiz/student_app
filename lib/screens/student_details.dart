@@ -1,6 +1,10 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_app/helper/db_helper.dart';
+import 'package:student_app/models/customIcon.dart';
 import 'package:student_app/models/student.dart';
 
 class StudentDetails extends StatefulWidget {
@@ -25,6 +29,8 @@ class StudentDetailsState extends State<StudentDetails> {
   DatabaseHelper _databaseHelper;
   Student _student;
   String title;
+  var _selectedDate = DateTime(2016, 1, 1);
+  int _fabIconType;
 
   StudentDetailsState(this._student, this.title);
 
@@ -39,6 +45,13 @@ class StudentDetailsState extends State<StudentDetails> {
     if (_databaseHelper == null) {
       _databaseHelper = DatabaseHelper();
     }
+
+    if (nameEditor.text == "") {
+      _fabIconType = 0;
+    } else {
+      _fabIconType = 1;
+    }
+
     return WillPopScope(
       onWillPop: () {
         onBackPressed();
@@ -81,6 +94,7 @@ class StudentDetailsState extends State<StudentDetails> {
                 padding: EdgeInsets.only(top: 15, bottom: 15),
                 child: TextField(
                   style: textStyle,
+                  controller: nameEditor,
                   onChanged: (value) {
                     _student.name = value;
                     debugPrint("Name $value");
@@ -92,10 +106,28 @@ class StudentDetailsState extends State<StudentDetails> {
                           borderRadius: BorderRadius.circular(8))),
                 ),
               ),
+              //DOB with date picket
+              Padding(
+                  padding: EdgeInsets.only(top: 15, bottom: 15),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        RaisedButton(
+                          onPressed: () => _selectDate(context),
+                          child: Text('Select date'),
+                        ),
+                      ],
+                    ),
+                  )),
               //DOB
               Padding(
                 padding: EdgeInsets.only(top: 15, bottom: 15),
                 child: TextField(
+                  controller: dobEditor,
                   style: textStyle,
                   onChanged: (value) {
                     _student.dob = value;
@@ -112,6 +144,7 @@ class StudentDetailsState extends State<StudentDetails> {
               Padding(
                 padding: EdgeInsets.only(top: 15, bottom: 15),
                 child: TextField(
+                  controller: mothersNameEditor,
                   style: textStyle,
                   onChanged: (value) {
                     _student.mothersName = value;
@@ -128,6 +161,7 @@ class StudentDetailsState extends State<StudentDetails> {
               Padding(
                 padding: EdgeInsets.only(top: 15, bottom: 15),
                 child: TextField(
+                  controller: fathersNameEditor,
                   style: textStyle,
                   onChanged: (value) {
                     _student.fathersName = value;
@@ -145,25 +179,48 @@ class StudentDetailsState extends State<StudentDetails> {
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: "Save",
-          child: Icon(Icons.save),
+          child: Icon(_iconTypes[_fabIconType].icon),
           backgroundColor: Colors.orange,
           onPressed: () {
             _saveOrEdit();
-            debugPrint("Save clicked");
+            debugPrint("Save/Update clicked");
           },
         ),
       ),
     );
   }
 
+  //region date picker
+  Future<DateTime> _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (pickedDate != null && pickedDate != _selectedDate) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
+  //endregion
+
   //region perform save or edit operation
   void _saveOrEdit() async {
     print(_student.name);
-    int result = await _databaseHelper.add(_student);
-    if (result != 0) {
-      _showAlertDialog('Status', 'Record added successfully');
+    int result = 0;
+    String message = "";
+    if (_student.id == 0) {
+      result = await _databaseHelper.add(_student);
+      message = "Record added successfully";
     } else {
-      _showAlertDialog('Status', 'Record addition failed');
+      result = await _databaseHelper.update(_student);
+      message = "Record updated successfully";
+    }
+    if (result != 0) {
+      _showAlertDialog('Status', message);
+    } else {
+      _showAlertDialog('Status', 'Problem occurred');
     }
   }
   //endregion
@@ -180,5 +237,12 @@ class StudentDetailsState extends State<StudentDetails> {
   void onBackPressed() {
     Navigator.pop(context, true);
   }
+  //endregion
+
+  //region get fab icon programmatically
+  List<MyIcon> _iconTypes = [
+    MyIcon(0, Icons.save),
+    MyIcon(1, Icons.check),
+  ];
   //endregion
 }

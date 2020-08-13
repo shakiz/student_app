@@ -53,7 +53,9 @@ class StudentListState extends State<StudentList> {
           return Card(
             margin: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 8),
             color: Colors.white,
-            elevation: 4.0,
+            elevation: 8.0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.orange,
