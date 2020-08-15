@@ -90,8 +90,8 @@ class StudentDetailsState extends State<StudentDetails> {
                 ),
               ),
               //Name
-              Padding(
-                padding: EdgeInsets.only(top: 15, bottom: 15),
+              Container(
+                margin: EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
                 child: TextField(
                   style: textStyle,
                   controller: nameEditor,
@@ -106,43 +106,33 @@ class StudentDetailsState extends State<StudentDetails> {
                           borderRadius: BorderRadius.circular(8))),
                 ),
               ),
-              //DOB with date picket
-              Padding(
-                  padding: EdgeInsets.only(top: 15, bottom: 15),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        RaisedButton(
-                          onPressed: () => _selectDate(context),
-                          child: Text('Select date'),
-                        ),
-                      ],
-                    ),
-                  )),
               //DOB
-              Padding(
-                padding: EdgeInsets.only(top: 15, bottom: 15),
-                child: TextField(
-                  controller: dobEditor,
-                  style: textStyle,
-                  onChanged: (value) {
-                    _student.dob = value;
-                    debugPrint("DOB $value");
-                  },
-                  decoration: InputDecoration(
-                      labelText: "Date of birth",
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                ),
+              Container(
+                margin: EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
+                child: InkWell(
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    child: Container(
+                      child: TextField(
+                        enabled: false,
+                        controller: dobEditor,
+                        style: textStyle,
+                        onChanged: (value) {
+                          _student.dob = value;
+                          debugPrint("DOB $value");
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Date of birth",
+                            labelStyle: textStyle,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                      ),
+                    )),
               ),
               //Mothers name
-              Padding(
-                padding: EdgeInsets.only(top: 15, bottom: 15),
+              Container(
+                margin: EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
                 child: TextField(
                   controller: mothersNameEditor,
                   style: textStyle,
@@ -158,8 +148,8 @@ class StudentDetailsState extends State<StudentDetails> {
                 ),
               ),
               //Fathers name
-              Padding(
-                padding: EdgeInsets.only(top: 15, bottom: 15),
+              Container(
+                margin: EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
                 child: TextField(
                   controller: fathersNameEditor,
                   style: textStyle,
