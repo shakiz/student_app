@@ -20,6 +20,7 @@ class StudentDetails extends StatefulWidget {
 }
 
 class StudentDetailsState extends State<StudentDetails> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static var _grade = ["Class 4", "Class 5"];
   TextEditingController nameEditor = TextEditingController();
   TextEditingController dobEditor = TextEditingController();
@@ -28,7 +29,7 @@ class StudentDetailsState extends State<StudentDetails> {
 
   DatabaseHelper _databaseHelper;
   Student _student;
-  String title;
+  String title, _dropdownValue;
   var _selectedDate = DateTime(2016, 1, 1);
   int _fabIconType;
 
@@ -46,11 +47,13 @@ class StudentDetailsState extends State<StudentDetails> {
       _databaseHelper = DatabaseHelper();
     }
 
+    //region set fab icon
     if (nameEditor.text == "") {
       _fabIconType = 0;
     } else {
       _fabIconType = 1;
     }
+    //endregion
 
     return WillPopScope(
       onWillPop: () {
@@ -68,111 +71,158 @@ class StudentDetailsState extends State<StudentDetails> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-          child: ListView(
-            children: <Widget>[
-              //Student grade
-              ListTile(
-                title: DropdownButton(
-                  items: _grade.map((String dropDownValue) {
-                    return DropdownMenuItem<String>(
-                      value: dropDownValue,
-                      child: Text(dropDownValue),
-                    );
-                  }).toList(),
-                  style: textStyle,
-                  value: "Class 4",
-                  onChanged: (selectedValue) {
-                    setState(() {
-                      debugPrint('User selected option $selectedValue');
-                    });
-                  },
-                ),
-              ),
-              //Name
-              Container(
-                margin: EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
-                child: TextField(
-                  style: textStyle,
-                  controller: nameEditor,
-                  onChanged: (value) {
-                    _student.name = value;
-                    debugPrint("Name $value");
-                  },
-                  decoration: InputDecoration(
-                      labelText: "Name",
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                ),
-              ),
-              //DOB
-              Container(
-                margin: EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
-                child: InkWell(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Container(
-                      child: TextField(
-                        enabled: false,
-                        controller: dobEditor,
-                        style: textStyle,
-                        onChanged: (value) {
-                          _student.dob = value;
-                          debugPrint("DOB $value");
-                        },
-                        decoration: InputDecoration(
-                            labelText: "Date of birth",
-                            labelStyle: textStyle,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8))),
+            padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
+                    child: DropdownButton<String>(
+                      value: _grade[0],
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 18,
+                      elevation: 8,
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.orange,
                       ),
-                    )),
+                      onChanged: (value) {
+                        setState(() {
+                          _dropdownValue = value;
+                        });
+                      },
+                      items:
+                          _grade.map<DropdownMenuItem<String>>((selectedValue) {
+                        return DropdownMenuItem<String>(
+                          value: selectedValue,
+                          child: Text(selectedValue),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
+                    child: TextFormField(
+                      style: textStyle,
+                      controller: nameEditor,
+                      onChanged: (value) {
+                        _student.name = value;
+                        debugPrint("Name $value");
+                      },
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.length == 0 || value.isEmpty) {
+                          return "Name can not be empty";
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Name",
+                          labelStyle: textStyle,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4))),
+                    ),
+                  ),
+                  //DOB
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
+                    child: InkWell(
+                        onTap: () {
+                          // Below line stops keyboard from appearing
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          child: TextFormField(
+                            enabled: false,
+                            controller: dobEditor,
+                            style: textStyle,
+                            onChanged: (value) {
+                              _student.dob = value;
+                              debugPrint("DOB $value");
+                            },
+                            validator: (value) {
+                              if (value.length == 0 || value.isEmpty) {
+                                return "Date of birth can not be empty.";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: InputDecoration(
+                                labelText: "Date of birth",
+                                labelStyle: textStyle,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4))),
+                          ),
+                        )),
+                  ),
+                  //Mothers name
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
+                    child: TextFormField(
+                      controller: mothersNameEditor,
+                      style: textStyle,
+                      onChanged: (value) {
+                        _student.mothersName = value;
+                        debugPrint("Mothers Name $value");
+                      },
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.length == 0 || value.isEmpty) {
+                          return "Mothers name can not be empty";
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Mothers Name",
+                          labelStyle: textStyle,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4))),
+                    ),
+                  ),
+                  //Fathers name
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
+                    child: TextFormField(
+                      controller: fathersNameEditor,
+                      style: textStyle,
+                      onChanged: (value) {
+                        _student.fathersName = value;
+                        debugPrint("Fathers Name $value");
+                      },
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.length == 0 || value.isEmpty) {
+                          return "Fathers name can not be empty.";
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Fathers Name",
+                          labelStyle: textStyle,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4))),
+                    ),
+                  )
+                ],
               ),
-              //Mothers name
-              Container(
-                margin: EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
-                child: TextField(
-                  controller: mothersNameEditor,
-                  style: textStyle,
-                  onChanged: (value) {
-                    _student.mothersName = value;
-                    debugPrint("Mothers Name $value");
-                  },
-                  decoration: InputDecoration(
-                      labelText: "Mothers Name",
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                ),
-              ),
-              //Fathers name
-              Container(
-                margin: EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
-                child: TextField(
-                  controller: fathersNameEditor,
-                  style: textStyle,
-                  onChanged: (value) {
-                    _student.fathersName = value;
-                    debugPrint("Fathers Name $value");
-                  },
-                  decoration: InputDecoration(
-                      labelText: "Fathers Name",
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                ),
-              )
-            ],
-          ),
-        ),
+            )),
         floatingActionButton: FloatingActionButton(
           tooltip: "Save",
           child: Icon(_iconTypes[_fabIconType].icon),
           backgroundColor: Colors.orange,
           onPressed: () {
-            _saveOrEdit();
+            validateInputs();
             debugPrint("Save/Update clicked");
           },
         ),
@@ -190,17 +240,30 @@ class StudentDetailsState extends State<StudentDetails> {
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;
+        dobEditor.text = "${_selectedDate.toLocal()}".split(' ')[0];
+        dobEditor.selection = TextSelection.fromPosition(TextPosition(
+            offset: dobEditor.text.length, affinity: TextAffinity.upstream));
+        debugPrint(dobEditor.text);
       });
     }
   }
   //endregion
+
+  void validateInputs() {
+    final FormState form = _formKey.currentState;
+    if (form.validate()) {
+      _saveOrEdit();
+    } else {
+      print('Form is invalid');
+    }
+  }
 
   //region perform save or edit operation
   void _saveOrEdit() async {
     print(_student.name);
     int result = 0;
     String message = "";
-    if (_student.id == 0) {
+    if (_student.id == 0 || _student.id == null) {
       result = await _databaseHelper.add(_student);
       message = "Record added successfully";
     } else {
@@ -215,6 +278,7 @@ class StudentDetailsState extends State<StudentDetails> {
   }
   //endregion
 
+  //region show alert dialog
   void _showAlertDialog(String title, String message) {
     AlertDialog alertDialog = AlertDialog(
       title: Text(title),
@@ -222,6 +286,7 @@ class StudentDetailsState extends State<StudentDetails> {
     );
     showDialog(context: context, builder: (_) => alertDialog);
   }
+  //endregion
 
   //region on back pressed call back
   void onBackPressed() {
