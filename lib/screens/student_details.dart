@@ -22,10 +22,10 @@ class StudentDetails extends StatefulWidget {
 class StudentDetailsState extends State<StudentDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static var _grade = ["Class 4", "Class 5"];
-  TextEditingController nameEditor = TextEditingController();
-  TextEditingController dobEditor = TextEditingController();
-  TextEditingController fathersNameEditor = TextEditingController();
-  TextEditingController mothersNameEditor = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  TextEditingController fathersNameController = TextEditingController();
+  TextEditingController mothersNameController = TextEditingController();
 
   DatabaseHelper _databaseHelper;
   Student _student;
@@ -38,17 +38,17 @@ class StudentDetailsState extends State<StudentDetails> {
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = Theme.of(context).textTheme.title;
-    nameEditor.text = _student.name;
-    dobEditor.text = _student.dob;
-    mothersNameEditor.text = _student.mothersName;
-    fathersNameEditor.text = _student.fathersName;
+    nameController.text = _student.name;
+    dobController.text = _student.dob;
+    mothersNameController.text = _student.mothersName;
+    fathersNameController.text = _student.fathersName;
 
     if (_databaseHelper == null) {
       _databaseHelper = DatabaseHelper();
     }
 
     //region set fab icon
-    if (nameEditor.text == "") {
+    if (nameController.text == "") {
       _fabIconType = 0;
     } else {
       _fabIconType = 1;
@@ -77,38 +77,45 @@ class StudentDetailsState extends State<StudentDetails> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin:
-                        EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
-                    child: DropdownButton<String>(
-                      value: _grade[0],
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 18,
-                      elevation: 8,
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.orange,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          _dropdownValue = value;
-                        });
-                      },
-                      items:
-                          _grade.map<DropdownMenuItem<String>>((selectedValue) {
-                        return DropdownMenuItem<String>(
-                          value: selectedValue,
-                          child: Text(selectedValue),
-                        );
-                      }).toList(),
-                    ),
-                  ),
+                      margin:
+                          EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
+                      child: FormField<String>(
+                        builder: (FormFieldState<String> state) {
+                          return InputDecorator(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4))),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                hint: Text("Select Grade"),
+                                value: _dropdownValue,
+                                isDense: true,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropdownValue = newValue;
+                                    print("DropDown value $_dropdownValue");
+                                  });
+                                },
+                                items: _grade.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: textStyle,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      )),
                   Container(
                     margin:
-                        EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
+                        EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
                     child: TextFormField(
                       style: textStyle,
-                      controller: nameEditor,
+                      controller: nameController,
                       onChanged: (value) {
                         _student.name = value;
                         debugPrint("Name $value");
@@ -130,18 +137,19 @@ class StudentDetailsState extends State<StudentDetails> {
                   ),
                   //DOB
                   Container(
-                    margin:
-                        EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
-                    child: InkWell(
+                      margin: EdgeInsets.only(
+                          left: 8, top: 12, bottom: 0, right: 8),
+                      child: InkWell(
                         onTap: () {
                           // Below line stops keyboard from appearing
                           FocusScope.of(context).requestFocus(new FocusNode());
                           _selectDate(context);
                         },
-                        child: Container(
+                        child: AbsorbPointer(
+                            child: Container(
                           child: TextFormField(
                             enabled: false,
-                            controller: dobEditor,
+                            controller: dobController,
                             style: textStyle,
                             onChanged: (value) {
                               _student.dob = value;
@@ -161,13 +169,13 @@ class StudentDetailsState extends State<StudentDetails> {
                                     borderRadius: BorderRadius.circular(4))),
                           ),
                         )),
-                  ),
+                      )),
                   //Mothers name
                   Container(
                     margin:
                         EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
                     child: TextFormField(
-                      controller: mothersNameEditor,
+                      controller: mothersNameController,
                       style: textStyle,
                       onChanged: (value) {
                         _student.mothersName = value;
@@ -193,7 +201,7 @@ class StudentDetailsState extends State<StudentDetails> {
                     margin:
                         EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
                     child: TextFormField(
-                      controller: fathersNameEditor,
+                      controller: fathersNameController,
                       style: textStyle,
                       onChanged: (value) {
                         _student.fathersName = value;
@@ -240,10 +248,11 @@ class StudentDetailsState extends State<StudentDetails> {
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;
-        dobEditor.text = "${_selectedDate.toLocal()}".split(' ')[0];
-        dobEditor.selection = TextSelection.fromPosition(TextPosition(
-            offset: dobEditor.text.length, affinity: TextAffinity.upstream));
-        debugPrint(dobEditor.text);
+        dobController.text = "${_selectedDate.toLocal()}".split(' ')[0];
+        dobController.selection = TextSelection.fromPosition(TextPosition(
+            offset: dobController.text.length,
+            affinity: TextAffinity.upstream));
+        debugPrint(dobController.text);
       });
     }
   }
