@@ -54,23 +54,39 @@ class StudentListState extends State<StudentList> {
             margin: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 8),
             color: Colors.white,
             elevation: 8.0,
+            clipBehavior: Clip.antiAlias,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.orange,
-                child: Icon(
-                  Icons.person_outline,
-                  color: Colors.white,
+                child: Hero(
+                  tag: "leftIcon",
+                  child: Icon(
+                    Icons.person_outline,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              title: Text(
-                students[position].name,
-                style: textStyle,
+              title: Hero(
+                tag: "name",
+                child: Material(
+                  color: Colors.transparent,
+                  child: Text(
+                    students[position].name,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
               ),
-              subtitle: Text(
-                students[position].fathersName,
-                style: textStyle,
+              subtitle: Hero(
+                tag: "subTitle",
+                child: Material(
+                  color: Colors.transparent,
+                  child: Text(
+                    students[position].fathersName,
+                    style: TextStyle(color: Colors.black, fontSize: 14),
+                  ),
+                ),
               ),
               trailing: GestureDetector(
                 child: Icon(Icons.delete_forever, color: Colors.orange),
@@ -89,8 +105,24 @@ class StudentListState extends State<StudentList> {
 
   //region perform navigation
   void performNavigation(Student student, String title) async {
-    bool result = await Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => StudentDetails(student, title)));
+    bool result;
+    result = await Navigator.of(context).push(
+      PageRouteBuilder(
+        fullscreenDialog: true,
+        transitionDuration: Duration(milliseconds: 1000),
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) {
+          return StudentDetails(student, title);
+        },
+        transitionsBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation, Widget child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    );
 
     if (result) {
       _loadRecycler();

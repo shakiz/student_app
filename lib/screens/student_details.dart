@@ -83,55 +83,55 @@ class StudentDetailsState extends State<StudentDetails> {
             ];
           },
           body: Padding(
-              padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: 8, top: 4, bottom: 0, right: 8),
-                          child: FormField<String>(
-                            builder: (FormFieldState<String> state) {
-                              return InputDecorator(
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(4))),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: Colors.orange,
-                                      size: 24,
-                                    ),
-                                    hint: Text("Select Grade"),
-                                    value: _dropdownValue,
-                                    isDense: true,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        _dropdownValue = newValue;
-                                        print("DropDown value $_dropdownValue");
-                                      });
-                                    },
-                                    items: _grade.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: textStyle,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
+            padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(
+                          left: 8, top: 12, bottom: 0, right: 8),
+                      child: FormField<String>(
+                        builder: (FormFieldState<String> state) {
+                          return InputDecorator(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4))),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: Colors.orange,
+                                  size: 24,
                                 ),
-                              );
-                            },
-                          )),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: 8, top: 12, bottom: 0, right: 8),
+                                hint: Text("Select Grade"),
+                                value: _dropdownValue,
+                                isDense: true,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _dropdownValue = newValue;
+                                    print("DropDown value $_dropdownValue");
+                                  });
+                                },
+                                items: _grade.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: textStyle,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      )),
+                  Container(
+                      margin: EdgeInsets.only(
+                          left: 8, top: 12, bottom: 0, right: 8),
+                      child: Hero(
+                        tag: "name",
                         child: TextFormField(
                           style: textStyle,
                           controller: nameController,
@@ -153,68 +153,68 @@ class StudentDetailsState extends State<StudentDetails> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4))),
                         ),
-                      ),
-                      //DOB
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: 8, top: 12, bottom: 0, right: 8),
-                          child: InkWell(
-                            onTap: () {
-                              // Below line stops keyboard from appearing
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                              _selectDate(context);
+                      )),
+                  //DOB
+                  Container(
+                      margin: EdgeInsets.only(
+                          left: 8, top: 12, bottom: 0, right: 8),
+                      child: InkWell(
+                        onTap: () {
+                          // Below line stops keyboard from appearing
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          _selectDate(context);
+                        },
+                        child: AbsorbPointer(
+                            child: Container(
+                          child: TextFormField(
+                            enabled: true,
+                            controller: dobController,
+                            keyboardType: TextInputType.datetime,
+                            style: textStyle,
+                            onChanged: (value) {
+                              _student.dob = value;
+                              debugPrint("DOB $value");
                             },
-                            child: AbsorbPointer(
-                                child: Container(
-                              child: TextFormField(
-                                enabled: true,
-                                controller: dobController,
-                                keyboardType: TextInputType.datetime,
-                                style: textStyle,
-                                onChanged: (value) {
-                                  _student.dob = value;
-                                  debugPrint("DOB $value");
-                                },
-                                decoration: InputDecoration(
-                                    hintText: "Date of birth",
-                                    labelStyle: textStyle,
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(4))),
-                              ),
-                            )),
-                          )),
-                      //Mothers name
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: 8, top: 12, bottom: 0, right: 8),
-                        child: TextFormField(
-                          controller: mothersNameController,
-                          style: textStyle,
-                          onChanged: (value) {
-                            _student.mothersName = value;
-                            debugPrint("Mothers Name $value");
-                          },
-                          keyboardType: TextInputType.text,
-                          validator: (value) {
-                            if (value.length == 0 || value.isEmpty) {
-                              return "Mothers name can not be empty";
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: InputDecoration(
-                              hintText: "Mothers Name",
-                              labelStyle: textStyle,
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4))),
-                        ),
-                      ),
-                      //Fathers name
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: 8, top: 12, bottom: 0, right: 8),
+                            decoration: InputDecoration(
+                                hintText: "Date of birth",
+                                labelStyle: textStyle,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4))),
+                          ),
+                        )),
+                      )),
+                  //Mothers name
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 8, top: 12, bottom: 0, right: 8),
+                    child: TextFormField(
+                      controller: mothersNameController,
+                      style: textStyle,
+                      onChanged: (value) {
+                        _student.mothersName = value;
+                        debugPrint("Mothers Name $value");
+                      },
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.length == 0 || value.isEmpty) {
+                          return "Mothers name can not be empty";
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                          hintText: "Mothers Name",
+                          labelStyle: textStyle,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4))),
+                    ),
+                  ),
+                  //Fathers name
+                  Container(
+                      margin: EdgeInsets.only(
+                          left: 8, top: 12, bottom: 0, right: 8),
+                      child: Hero(
+                        tag: "subTitle",
                         child: TextFormField(
                           controller: fathersNameController,
                           style: textStyle,
@@ -236,11 +236,11 @@ class StudentDetailsState extends State<StudentDetails> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4))),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              )),
+                      ))
+                ],
+              ),
+            ),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: "Save",
