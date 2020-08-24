@@ -1,6 +1,7 @@
 # student_app
 
-This project supplies the CRUD operation in flutter using SqFlite plugin.This is an complete CRUD example so you can use it for your own leraning purpose.
+This project supplies the CRUD operation in flutter using SqFlite plugin.This is an complete CRUD example so you can use it for your own leraning purpose.Along with the CRUD operation i have tried to implement some basic widget in flutter.
+You can find the support doc from here. https://docs.google.com/document/d/1RVfCB6ACwEr7chXb8g3g5-DsEZv2eoyy_2ykho-cJMs/edit?usp=sharing
 
 ## Getting Started
 
