@@ -59,89 +59,77 @@ class StudentListState extends State<StudentList> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: SafeArea(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(8),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.orange,
-                      child: Hero(
-                        tag: "leftIcon",
+              child: GestureDetector(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(8),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.orange,
                         child: Icon(
                           Icons.person_outline,
                           color: Colors.white,
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      textDirection: TextDirection.ltr,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                            child: Hero(
-                              tag: "name",
-                              child: Material(
-                                color: Colors.transparent,
-                                child: Text(
-                                  students[position].name,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
+                    Expanded(
+                      child: Column(
+                        textDirection: TextDirection.ltr,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                              child: Text(
+                                students[position].name,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
                               ),
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                            child: Hero(
-                              tag: "fathersName",
-                              child: Material(
-                                color: Colors.transparent,
-                                child: Text(
-                                  students[position].fathersName,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 14),
-                                ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                              child: Text(
+                                "Fathers Name : " +
+                                    students[position].fathersName,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 14),
                               ),
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                            child: Hero(
-                              tag: "mothersName",
-                              child: Material(
-                                color: Colors.transparent,
-                                child: Text(
-                                  students[position].mothersName,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 14),
-                                ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                              child:  Text(
+                                "Mothers Name : " +
+                                    students[position].mothersName,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 14),
                               ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(8),
-                    child: GestureDetector(
-                      child: Icon(Icons.delete_forever, color: Colors.orange),
-                      onTap: () {
-                        _deleteRecord(context, students[position]);
-                      },
+                    Container(
+                      margin: EdgeInsets.all(8),
+                      child: IconButton(
+                        icon: Icon(Icons.delete_forever),
+                        iconSize: 32,
+                        color: Colors.orange,
+                        onPressed: () {
+                          _deleteRecord(context, students[position]);
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                onTap: () {
+                  performNavigation(students[position], "Edit Student Details");
+                },
               ),
             ),
           );
