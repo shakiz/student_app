@@ -29,7 +29,52 @@ class StudentListState extends State<StudentList> {
         title: Text("Student List"),
         backgroundColor: Colors.orange,
       ),
-      body: getStudentList(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            child: Card(
+              color: Colors.white,
+              elevation: 4.0,
+              margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: Container(
+                  padding:
+                      EdgeInsets.only(left: 4, top: 8, bottom: 8, right: 4),
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.orange,
+                            child: Icon(
+                              Icons.person_outline,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Total Students : " + students.length.toString(),
+                            style:
+                                TextStyle(color: Colors.orange, fontSize: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+          ),
+          Container(
+            child: getStudentList(),
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Add",
         child: Icon(
@@ -46,94 +91,97 @@ class StudentListState extends State<StudentList> {
   }
 
   //region get student list and card
-  ListView getStudentList() {
-    TextStyle textStyle = Theme.of(context).textTheme.subhead;
-    return ListView.builder(
-        itemCount: count,
-        itemBuilder: (BuildContext context, int position) {
-          return Card(
-            margin: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 8),
-            color: Colors.white,
-            elevation: 8.0,
-            clipBehavior: Clip.antiAlias,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: SafeArea(
-              child: GestureDetector(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(8),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.orange,
-                        child: Icon(
-                          Icons.person_outline,
-                          color: Colors.white,
+  //wrap it into Expanded widget or Container with width, Example below.
+  Expanded getStudentList() {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: count,
+          itemBuilder: (BuildContext context, int position) {
+            return Card(
+              margin: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 8),
+              color: Colors.white,
+              elevation: 8.0,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: SafeArea(
+                child: GestureDetector(
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.orange,
+                          child: Icon(
+                            Icons.person_outline,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        textDirection: TextDirection.ltr,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                              child: Text(
-                                students[position].name,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
+                      Expanded(
+                        child: Column(
+                          textDirection: TextDirection.ltr,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                child: Text(
+                                  students[position].name,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 18),
+                                ),
                               ),
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
-                              child: Text(
-                                "Fathers Name : " +
-                                    students[position].fathersName,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                child: Text(
+                                  "Fathers Name : " +
+                                      students[position].fathersName,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                ),
                               ),
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                              child:  Text(
-                                "Mothers Name : " +
-                                    students[position].mothersName,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                                child: Text(
+                                  "Mothers Name : " +
+                                      students[position].mothersName,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(8),
-                      child: IconButton(
-                        icon: Icon(Icons.delete_forever),
-                        iconSize: 32,
-                        color: Colors.orange,
-                        onPressed: () {
-                          _deleteRecord(context, students[position]);
-                        },
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        child: IconButton(
+                          icon: Icon(Icons.delete_forever),
+                          iconSize: 32,
+                          color: Colors.orange,
+                          onPressed: () {
+                            _deleteRecord(context, students[position]);
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  onTap: () {
+                    performNavigation(
+                        students[position], "Edit Student Details");
+                  },
                 ),
-                onTap: () {
-                  performNavigation(students[position], "Edit Student Details");
-                },
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
   //endregion
 

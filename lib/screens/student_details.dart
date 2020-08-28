@@ -74,8 +74,8 @@ class StudentDetailsState extends State<StudentDetails> {
                     title,
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
-                  background: Image.network(
-                    "https://cdn.dribbble.com/users/16206/screenshots/5404422/education_icons_2x.png",
+                  background: Image(
+                    image: AssetImage("assets/education.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
