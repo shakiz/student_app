@@ -34,13 +34,13 @@ class DeveloperState extends State<DeveloperDetails> {
                 child: Column(
                   children: <Widget>[
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       child: Hero(
                         tag: "profileIcon",
                         child: Material(
                           color: Colors.transparent,
                           child: CircleAvatar(
-                            backgroundColor: Colors.grey,
+                            backgroundColor: Colors.black54,
                             child: Icon(
                               Icons.person,
                               color: Colors.white,
@@ -50,21 +50,72 @@ class DeveloperState extends State<DeveloperDetails> {
                       ),
                     ),
                     Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: 0, right: 0, top: 4, bottom: 0),
+                          child: Hero(
+                            tag: "details",
+                            child: Material(
+                              color: Colors.transparent,
+                              child: Row(
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      "Developer Name : Sakhawat Hossain",
+                                      style: TextStyle(
+                                          color: Colors.black54, fontSize: 16),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )),
+                    Align(
                       alignment: Alignment.centerLeft,
-                      child: Hero(
-                        tag: "details",
-                        child: Material(
-                          color: Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              Flexible(
-                                child: Text(
-                                  "Developer Name : Shakil[Tap for More Details]",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 16),
-                                ),
-                              )
-                            ],
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: 0, right: 0, top: 4, bottom: 0),
+                        child: Hero(
+                          tag: "org",
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: Text(
+                                    "Organization : Star Computer Systems Limited",
+                                    style: TextStyle(
+                                        color: Colors.black54, fontSize: 16),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: 0, right: 0, top: 4, bottom: 0),
+                        child: Hero(
+                          tag: "position",
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: Text(
+                                    "Position : Jr. Mobile Application Developer",
+                                    style: TextStyle(
+                                        color: Colors.black54, fontSize: 16),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
