@@ -3,6 +3,13 @@
 This project supplies the CRUD operation in flutter using SqFlite plugin.This is an complete CRUD example so you can use it for your own leraning purpose.Along with the CRUD operation i have tried to implement some basic widget in flutter.
 You can find the support doc from here. https://docs.google.com/document/d/1RVfCB6ACwEr7chXb8g3g5-DsEZv2eoyy_2ykho-cJMs/edit?usp=sharing
 
+## Project Screenshots
+![Screenshot_20200905-175752](https://user-images.githubusercontent.com/33387811/92304668-d9bc7080-efa1-11ea-9398-c44eb06bc190.png)
+![Screenshot_20200905-175759](https://user-images.githubusercontent.com/33387811/92304648-ab3e9580-efa1-11ea-8c1a-240d524189ce.png)
+![Screenshot_20200905-175809](https://user-images.githubusercontent.com/33387811/92304649-abd72c00-efa1-11ea-9cce-854ffd540c77.png)
+![Screenshot_20200905-175822](https://user-images.githubusercontent.com/33387811/92304650-ac6fc280-efa1-11ea-8598-547d76208b74.png)
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
