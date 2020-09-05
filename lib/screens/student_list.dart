@@ -5,6 +5,8 @@ import 'package:student_app/helper/db_helper.dart';
 import 'package:student_app/models/student.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'developer_details.dart';
+
 class StudentList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -52,7 +54,7 @@ class StudentListState extends State<StudentList> {
                           child: CircleAvatar(
                             backgroundColor: Colors.orange,
                             child: Icon(
-                              Icons.person_outline,
+                              Icons.wc,
                               color: Colors.white,
                             ),
                           ),
@@ -68,6 +70,86 @@ class StudentListState extends State<StudentList> {
                       ],
                     ),
                   )),
+            ),
+          ),
+          Container(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    fullscreenDialog: true,
+                    transitionDuration: Duration(milliseconds: 1000),
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation) {
+                      return DeveloperDetails();
+                    },
+                    transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Card(
+                color: Colors.white,
+                elevation: 4.0,
+                margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                child: Container(
+                    padding:
+                        EdgeInsets.only(left: 4, top: 8, bottom: 8, right: 4),
+                    child: Container(
+                      margin: EdgeInsets.all(8),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Hero(
+                              tag: "profileIcon",
+                              child: Material(
+                                color: Colors.transparent,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Hero(
+                              tag: "details",
+                              child: Material(
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Text(
+                                        "Developer Name : Shakil[Tap for More Details]",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 16),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
             ),
           ),
           Container(
