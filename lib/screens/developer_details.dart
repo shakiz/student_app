@@ -85,7 +85,7 @@ class DeveloperState extends State<DeveloperDetails> {
                               children: <Widget>[
                                 Flexible(
                                   child: Text(
-                                    "Organization : Star Computer Systems Limited",
+                                    "Organization : Save The Children in Bangladesh",
                                     style: TextStyle(
                                         color: Colors.black54, fontSize: 16),
                                   ),

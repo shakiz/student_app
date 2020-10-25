@@ -187,7 +187,7 @@ class StudentListState extends State<StudentList> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               child: SafeArea(
-                child: GestureDetector(
+                child: InkWell(
                   child: Row(
                     children: <Widget>[
                       Container(

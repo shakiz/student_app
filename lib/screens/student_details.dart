@@ -84,152 +84,162 @@ class StudentDetailsState extends State<StudentDetails> {
             child: SafeArea(
               child: Form(
                 key: _formKey,
-                child: Column(
+                child: ListView(
                   children: <Widget>[
-                    Container(
-                        margin: EdgeInsets.only(
-                            left: 8, top: 12, bottom: 0, right: 8),
-                        child: FormField<String>(
-                          builder: (FormFieldState<String> state) {
-                            return InputDecorator(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4))),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: Colors.orange,
-                                    size: 24,
-                                  ),
-                                  hint: Text("Select Grade"),
-                                  value: _dropdownValue,
-                                  isDense: true,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _dropdownValue = newValue;
-                                      print("DropDown value $_dropdownValue");
-                                    });
-                                  },
-                                  items: _grade.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: textStyle,
+                    Padding(
+                      padding: EdgeInsets.all(2),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left: 8, top: 12, bottom: 0, right: 8),
+                              child: FormField<String>(
+                                builder: (FormFieldState<String> state) {
+                                  return InputDecorator(
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4))),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        icon: Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: Colors.orange,
+                                          size: 24,
+                                        ),
+                                        hint: Text("Select Grade"),
+                                        value: _dropdownValue,
+                                        isDense: true,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            _dropdownValue = newValue;
+                                            print(
+                                                "DropDown value $_dropdownValue");
+                                          });
+                                        },
+                                        items: _grade.map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: textStyle,
+                                            ),
+                                          );
+                                        }).toList(),
                                       ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            );
-                          },
-                        )),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 8, top: 12, bottom: 0, right: 8),
-                      child: TextFormField(
-                        style: textStyle,
-                        controller: nameController,
-                        onChanged: (value) {
-                          _student.name = value;
-                          debugPrint("Name $value");
-                        },
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value.length == 0 || value.isEmpty) {
-                            return "Name can not be empty";
-                          } else {
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Name",
-                            labelStyle: textStyle,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4))),
-                      ),
-                    ),
-                    //DOB
-                    Container(
-                        margin: EdgeInsets.only(
-                            left: 8, top: 12, bottom: 0, right: 8),
-                        child: InkWell(
-                          onTap: () {
-                            // Below line stops keyboard from appearing
-                            FocusScope.of(context)
-                                .requestFocus(new FocusNode());
-                            _selectDate(context);
-                          },
-                          child: AbsorbPointer(
-                              child: Container(
+                                    ),
+                                  );
+                                },
+                              )),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 8, top: 12, bottom: 0, right: 8),
                             child: TextFormField(
-                              enabled: true,
-                              controller: dobController,
-                              keyboardType: TextInputType.datetime,
                               style: textStyle,
+                              controller: nameController,
                               onChanged: (value) {
-                                _student.dob = value;
-                                debugPrint("DOB $value");
+                                _student.name = value;
+                                debugPrint("Name $value");
+                              },
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.length == 0 || value.isEmpty) {
+                                  return "Name can not be empty";
+                                } else {
+                                  return null;
+                                }
                               },
                               decoration: InputDecoration(
-                                  hintText: "Date of birth",
+                                  hintText: "Name",
                                   labelStyle: textStyle,
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(4))),
                             ),
-                          )),
-                        )),
-                    //Mothers name
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 8, top: 12, bottom: 0, right: 8),
-                      child: TextFormField(
-                        controller: mothersNameController,
-                        style: textStyle,
-                        onChanged: (value) {
-                          _student.mothersName = value;
-                          debugPrint("Mothers Name $value");
-                        },
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value.length == 0 || value.isEmpty) {
-                            return "Mothers name can not be empty";
-                          } else {
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Mothers Name",
-                            labelStyle: textStyle,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4))),
-                      ),
-                    ),
-                    //Fathers name
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 8, top: 12, bottom: 0, right: 8),
-                      child: TextFormField(
-                        controller: fathersNameController,
-                        style: textStyle,
-                        onChanged: (value) {
-                          _student.fathersName = value;
-                          debugPrint("Fathers Name $value");
-                        },
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value.length == 0 || value.isEmpty) {
-                            return "Fathers name can not be empty.";
-                          } else {
-                            return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Fathers Name",
-                            labelStyle: textStyle,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4))),
+                          ),
+                          //DOB
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left: 8, top: 12, bottom: 0, right: 8),
+                              child: InkWell(
+                                onTap: () {
+                                  // Below line stops keyboard from appearing
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                  _selectDate(context);
+                                },
+                                child: AbsorbPointer(
+                                    child: Container(
+                                  child: TextFormField(
+                                    enabled: true,
+                                    controller: dobController,
+                                    keyboardType: TextInputType.datetime,
+                                    style: textStyle,
+                                    onChanged: (value) {
+                                      _student.dob = value;
+                                      debugPrint("DOB $value");
+                                    },
+                                    decoration: InputDecoration(
+                                        hintText: "Date of birth",
+                                        labelStyle: textStyle,
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4))),
+                                  ),
+                                )),
+                              )),
+                          //Mothers name
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 8, top: 12, bottom: 0, right: 8),
+                            child: TextFormField(
+                              controller: mothersNameController,
+                              style: textStyle,
+                              onChanged: (value) {
+                                _student.mothersName = value;
+                                debugPrint("Mothers Name $value");
+                              },
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.length == 0 || value.isEmpty) {
+                                  return "Mothers name can not be empty";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Mothers Name",
+                                  labelStyle: textStyle,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4))),
+                            ),
+                          ),
+                          //Fathers name
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 8, top: 12, bottom: 0, right: 8),
+                            child: TextFormField(
+                              controller: fathersNameController,
+                              style: textStyle,
+                              onChanged: (value) {
+                                _student.fathersName = value;
+                                debugPrint("Fathers Name $value");
+                              },
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.length == 0 || value.isEmpty) {
+                                  return "Fathers name can not be empty.";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Fathers Name",
+                                  labelStyle: textStyle,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4))),
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
